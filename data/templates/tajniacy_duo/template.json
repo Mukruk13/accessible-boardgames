@@ -1,0 +1,14 @@
+{
+  "name": "Tajniacy dla dwóch osób",
+  "card_count": 26,
+  "tokens_count": 0,
+  "modules": ["common", "peer_sync", "narrator", "custom_rules_loader"],
+  "card_template": {
+    "fields": ["strona A", "strona B"]
+  },
+  "instructions": [
+    { "title": "Wprowadzenie", "file": "intro.txt" },
+    { "title": "Opis kart", "file": "cards.txt" },
+    { "title": "Tryb drużynowy", "file": "cooperation.txt" }
+  ]
+}

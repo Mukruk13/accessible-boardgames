@@ -1,0 +1,14 @@
+{
+  "name": "SMOKI",
+  "card_count": 52,
+  "tokens_count": 12,
+  "modules": ["common", "narrator", "game_memory", "peer_sync"],
+  "card_template": {
+    "fields": ["kraina", "typ", "punkty"]
+  },
+  "instructions": [
+    { "title": "Wprowadzenie", "file": "intro.txt" },
+    { "title": "Opis smoków", "file": "types.txt" },
+    { "title": "Punkty", "file": "points.txt" }
+  ]
+}

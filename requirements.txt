@@ -1,0 +1,4 @@
+kivy
+pyttsx3
+pytesseract
+PIL

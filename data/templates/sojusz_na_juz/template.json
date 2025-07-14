@@ -1,0 +1,14 @@
+{
+  "name": "Sojusz na Już",
+  "card_count": 120,
+  "tokens_count": 50,
+  "modules": ["common", "narrator", "game_memory", "peer_sync"],
+  "card_template": {
+    "fields": ["symbol", "typ"]
+  },
+  "instructions": [
+    { "title": "Start", "file": "intro.txt" },
+    { "title": "Przebieg rundy", "file": "turn.txt" },
+    { "title": "Efekty kart", "file": "effects.txt" }
+  ]
+}
