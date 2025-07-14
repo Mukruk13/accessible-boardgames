@@ -4,37 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="288991e0-b720-40be-b1b0-1dcfb1431b09" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/Gry.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/actions/game_actions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assertions/validation.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/templates/czarne_historie/template.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/templates/smoki/template.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/templates/sojusz_na_juz/template.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/templates/tajniacy_duo/template.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/templates/wybuchajace_kotki/template.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/card_scanner.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/game_loader.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/navigation/screen_manager.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screens/base_screen.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screens/game_add_new.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screens/game_play.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screens/game_selection.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screens/main_menu.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/screens/settings.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/nfc_handler.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/voice_reader.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/voice_recognizer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/config.py" afterDir="false" />
-    </list>
+    <list default="true" id="288991e0-b720-40be-b1b0-1dcfb1431b09" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
