@@ -1,6 +1,8 @@
+# screens/base_screen.py
 
 from kivy.uix.screenmanager import Screen
 from services.voice_reader import speak
+
 
 class BaseScreen(Screen):
     def speak(self, text):
