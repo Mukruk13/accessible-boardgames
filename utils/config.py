@@ -12,6 +12,9 @@ def load_config():
         return json.load(f)
 
 
-def save_config(data):
+def save_config(new_data):
+    config = load_config()
+    config.update(new_data)  # merge without losing other settings
     with open(CONFIG_PATH, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=4)
+        json.dump(config, f, indent=4)
+

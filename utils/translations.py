@@ -21,6 +21,10 @@ translations = {
         "back_to_main_menu": "Back to Main Menu",
         "settings_title": "Settings",
         "language_changed": "Language changed to English",
+        "language_names": {
+            "en": "English",
+            "pl": "Polish"
+        },
         # Main menu translations
         "select_game": "Select Game",
         "settings": "Settings",
@@ -42,6 +46,10 @@ translations = {
         "back_to_main_menu": "Powrót do menu głównego",
         "settings_title": "Ustawienia",
         "language_changed": "Wybrano język polski",
+        "language_names": {
+            "en": "Angielski",
+            "pl": "Polski"
+        },
         # Main menu translations
         "select_game": "Wybierz grę",
         "settings": "Ustawienia",
