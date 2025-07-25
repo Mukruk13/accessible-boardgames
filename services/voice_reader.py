@@ -1,13 +1,13 @@
 # services/voice_reader.py
-# services/voice_reader.py
 
-import multiprocessing
-import pyttsx3
 import sys
+import subprocess
+import os
 
 if sys.platform.startswith("win"):
-    multiprocessing.set_start_method("spawn", force=True)  # Set once at import time
-
+    CREATE_NO_WINDOW = 0x08000000
+else:
+    CREATE_NO_WINDOW = 0
 
 class VoiceReader:
     def __init__(self):
@@ -17,6 +17,7 @@ class VoiceReader:
 
     def _load_default_voice(self):
         try:
+            import pyttsx3
             engine = pyttsx3.init()
             voices = engine.getProperty("voices")
             engine.stop()
@@ -27,6 +28,7 @@ class VoiceReader:
 
     def set_voice_for_language(self, lang_code):
         try:
+            import pyttsx3
             engine = pyttsx3.init()
             voices = engine.getProperty("voices")
             engine.stop()
@@ -38,32 +40,18 @@ class VoiceReader:
                     print(f"[Voice] Set to {lang_code.upper()}: {voice.name}")
                     return
 
-            # fallback
             self.voice_index = 0
             print(f"[Voice] Fallback to: {voices[0].name}")
         except Exception as e:
             print(f"[Voice Setup Error] {e}")
 
-    def _speak(self, text, index):
-        try:
-            engine = pyttsx3.init()
-            voices = engine.getProperty("voices")
-            if 0 <= index < len(voices):
-                engine.setProperty("voice", voices[index].id)
-            engine.setProperty("rate", 150)
-            engine.setProperty("volume", 1.0)
-            print(f"[TTS] Speaking: {text}")
-            engine.say(text)
-            engine.runAndWait()
-            engine.stop()
-        except Exception as e:
-            print(f"[TTS Error] {e}")
-
     def speak(self, text):
-        p = multiprocessing.Process(
-            target=self._speak,
-            args=(text, self.voice_index),
-        )
-        p.start()
+        python_executable = sys.executable
+        tts_worker_path = os.path.join(os.path.dirname(__file__), "tts_worker.py")
+        cmd = [python_executable, tts_worker_path, text, str(self.voice_index)]
+        if sys.platform.startswith("win"):
+            subprocess.Popen(cmd, creationflags=CREATE_NO_WINDOW)
+        else:
+            subprocess.Popen(cmd)
 
 voice_reader = VoiceReader()
