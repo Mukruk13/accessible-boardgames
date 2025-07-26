@@ -14,8 +14,8 @@ accessible-boardgames/
 ├── docs/                         # 📚 Optional directory for documentation, architecture diagrams, or guides
 │
 ├── logic/                        # 🧠 Core logic for the application
-│   ├── commands/                 #    🔁 Write/update operations (e.g. saving config, setting voice)
-│   └── queries/                  #    ❓ Read operations (e.g. loading config, getting translations)
+│   ├── commands/                    # 🔁 Write/update operations (e.g. saving config, setting voice)
+│   └── queries/                     # ❓ Read operations (e.g. loading config, getting translations)
 │
 ├── modules/                      # 🧩 Optional: reusable components or game-specific modules (e.g. card decks, board layouts)
 │
@@ -25,9 +25,9 @@ accessible-boardgames/
 ├── screens/                      # 🖥 Kivy Screen subclasses (UI views like settings, main menu, gameplay)
 │
 ├── services/                     # 🔌 Interfaces to external hardware/services
-│   ├── nfc_handler.py            #    📶 Handles NFC tag reading/writing
-│   ├── voice_reader.py           #    🗣 Handles text-to-speech (TTS) playback
-│   └── voice_recognizer.py       #    🎤 Handles voice command recognition
+│   ├── nfc_handler.py               # 📶 Handles NFC tag reading/writing
+│   ├── voice_reader.py              # 🗣 Handles text-to-speech (TTS) playback
+│   └── voice_recognizer.py          # 🎤 Handles voice command recognition
 │    
 └── utils/
     └── config.py                 # 🧰 Helper functions for loading and validating config files
