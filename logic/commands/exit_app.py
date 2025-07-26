@@ -1,6 +1,9 @@
+# logic/commands/exit_app.py
+
 from kivy.app import App
 from kivy.core.window import Window
 import sys
+
 
 def exit_app():
     App.get_running_app().stop()

@@ -1,4 +1,5 @@
 # utils/config.py
+
 import json
 import os
 
@@ -17,4 +18,3 @@ def save_config(new_data):
     config.update(new_data)  # merge without losing other settings
     with open(CONFIG_PATH, "w", encoding="utf-8") as f:
         json.dump(config, f, indent=4)
-
