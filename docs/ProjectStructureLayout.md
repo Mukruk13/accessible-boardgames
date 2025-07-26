@@ -26,10 +26,13 @@ accessible-boardgames/
 │
 ├── services/                     # 🔌 Interfaces to external hardware/services
 │   ├── nfc_handler.py               # 📶 Handles NFC tag reading/writing
-│   ├── voice_reader.py              # 🗣 Handles text-to-speech (TTS) playback
+│   ├── tts_worker_windows.py        # 🗣 Handles text-to-speech (TTS) playback on Windows
+│   ├── voice_reader_android.py      # 🗣 Handles text-to-speech (TTS) playback on Android
+│   ├── voice_reader_windows.py      # 🗣 Handles text-to-speech (TTS) playback on Windows
 │   └── voice_recognizer.py          # 🎤 Handles voice command recognition
 │    
 └── utils/
-    └── config.py                 # 🧰 Helper functions for loading and validating config files
-
+    ├── config.json                  # 📦 Default or user-saved configuration (e.g. language, voice settings)
+    ├── config.py                    # 🧰 Helper functions for loading, saving, and validating config files
+    └── translations.py              # 🌍 Translation keys, display mappings, and language data for the UI
 ```
