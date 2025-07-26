@@ -1,27 +1,44 @@
 # screens/settings.py
 
-from screens.base_screen import BaseScreen
-from kivy.uix.label import Label
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.spinner import Spinner
-from kivy.clock import Clock
-from kivy.uix.button import Button
+from typing import Any
 
-from logic.commands.set_voice import set_voice_for_language
+from kivy.clock import Clock
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.button import Button
+from kivy.uix.label import Label
+from kivy.uix.spinner import Spinner
+
+from screens.base_screen import BaseScreen
+
 from logic.commands.save_config import save_config
+from logic.commands.set_voice import set_voice_for_language
+from logic.queries.get_translations import (
+    get_language_names,
+    get_translations,
+)
 from logic.queries.load_config import load_config
-from logic.queries.get_translations import get_translations, get_language_names
 
 
 class SettingsScreen(BaseScreen):
-    speak_on_enter_key = "settings_title"
+    """
+    Screen for adjusting application settings including language, voice, and accessibility options.
+    """
 
-    def __init__(self, **kwargs):
+    speak_on_enter_key: str = "settings.settings_title"
+
+    def __init__(self, **kwargs: Any) -> None:
+        """
+        Initializes the settings screen and builds its UI layout.
+        """
         super().__init__(**kwargs)
         self.build_ui()
 
-    def build_ui(self):
-        self.main_layout = BoxLayout(orientation="vertical", padding=20, spacing=30)
+    def build_ui(self) -> None:
+        """
+        Constructs the layout and components for the settings interface.
+        """
+        self.main_layout = BoxLayout(
+            orientation="vertical", padding=20, spacing=30)
 
         # Navigation & UI Section
         self.nav_ui_label = Label(markup=True)
@@ -52,7 +69,8 @@ class SettingsScreen(BaseScreen):
 
         # Back Button
         self.back_button = Button(size_hint=(1, None), height=50)
-        self.back_button.bind(on_release=lambda instance: self.navigate_to("main_menu"))
+        self.back_button.bind(
+            on_release=lambda instance: self.navigate_to("main_menu"))
 
         back_section = BoxLayout(orientation="vertical", spacing=10)
         back_section.add_widget(self.back_button)
@@ -64,28 +82,47 @@ class SettingsScreen(BaseScreen):
         self.main_layout.add_widget(back_section)
         self.add_widget(self.main_layout)
 
-    def update_texts(self):
-        self.lang_data = get_translations(self.language)
+    def update_texts(self) -> None:
+        """
+        Updates all visible labels and buttons with translated text based on the current language.
+        """
+        self.set_text_from_key(
+            self.nav_ui_label, "settings.nav_ui", markup=True, bold=True
+        )
+        self.set_text_from_key(self.back_style_label, "settings.back_style")
+        self.set_text_from_key(self.font_size_label, "settings.font_size")
 
-        self.nav_ui_label.text = f"[b]{self.lang_data['nav_ui']}[/b]"
-        self.back_style_label.text = self.lang_data["back_style"]
-        self.font_size_label.text = self.lang_data["font_size"]
+        self.set_text_from_key(
+            self.accessibility_label,
+            "settings.accessibility",
+            markup=True,
+            bold=True)
+        self.set_text_from_key(self.voice_speed_label, "settings.voice_speed")
+        self.set_text_from_key(self.contrast_label, "settings.contrast")
 
-        self.accessibility_label.text = f"[b]{self.lang_data['accessibility']}[/b]"
-        self.voice_speed_label.text = self.lang_data["voice_speed"]
-        self.contrast_label.text = self.lang_data["contrast"]
+        self.set_text_from_key(
+            self.language_label, "settings.language", markup=True, bold=True
+        )
+        self.set_text_from_key(self.back_button, "settings.back_to_main_menu")
 
-        self.language_label.text = f"[b]{self.lang_data['language']}[/b]"
-        self.back_button.text = self.lang_data["back_to_main_menu"]
-
-        # Always use the config language to display the correct spinner options
         config_lang = load_config().get("language", "en")
         localized_names = get_language_names(config_lang)
 
         self.language_spinner.values = list(localized_names.values())
-        self.language_spinner.text = localized_names.get(self.language, "English")
+        self.language_spinner.text = localized_names.get(
+            self.language, "English")
 
-    def set_language(self, spinner, language_display_name):
+    def set_language(
+            self,
+            spinner: Spinner,
+            language_display_name: str) -> None:
+        """
+        Changes the app's language based on user selection from the language spinner.
+
+        Args:
+            spinner: The spinner widget triggering the change.
+            language_display_name: The display name of the selected language.
+        """
         config = load_config()
         current_lang = config.get("language", "en")
         display_map = get_language_names(current_lang)
@@ -102,4 +139,5 @@ class SettingsScreen(BaseScreen):
         set_voice_for_language(lang_code)
         self.update_texts()
 
-        Clock.schedule_once(lambda dt: self.speak_key("language_changed"), 0.1)
+        Clock.schedule_once(
+            lambda dt: self.speak_key("meta.language_changed"), 0.1)

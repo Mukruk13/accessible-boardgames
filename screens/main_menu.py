@@ -1,25 +1,35 @@
 # screens/main_menu.py
 
-from screens.base_screen import BaseScreen
+import sys
+from typing import Any
+
+from kivy.app import App
+from kivy.core.window import Window
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
-from kivy.app import App
-from kivy.clock import Clock
-from kivy.core.window import Window
+from kivy.uix.widget import Widget
 
-import sys
-
-from logic.queries.get_translations import get_translations
+from screens.base_screen import BaseScreen
 
 
 class MainMenuScreen(BaseScreen):
-    speak_on_enter_key = "main_menu"
+    """
+    Main menu screen that provides navigation to other parts of the app.
+    """
 
-    def __init__(self, **kwargs):
+    speak_on_enter_key: str = "main_menu.main_menu"
+
+    def __init__(self, **kwargs: Any) -> None:
+        """
+        Initializes the main menu screen and builds the UI.
+        """
         super().__init__(**kwargs)
         self.build_ui()
 
-    def build_ui(self):
+    def build_ui(self) -> None:
+        """
+        Builds the main menu interface layout and buttons.
+        """
         self.layout = BoxLayout(orientation="vertical", spacing=20, padding=50)
 
         self.btn_select = Button()
@@ -27,8 +37,10 @@ class MainMenuScreen(BaseScreen):
         self.btn_exit = Button()
         self.btn_test_speech = Button()
 
-        self.btn_select.bind(on_release=lambda x: self.navigate_to("select_game"))
-        self.btn_settings.bind(on_release=lambda x: self.navigate_to("settings"))
+        self.btn_select.bind(
+            on_release=lambda x: self.navigate_to("select_game"))
+        self.btn_settings.bind(
+            on_release=lambda x: self.navigate_to("settings"))
         self.btn_exit.bind(on_release=self.exit_app)
         self.btn_test_speech.bind(on_release=self.test_speech)
 
@@ -39,18 +51,32 @@ class MainMenuScreen(BaseScreen):
 
         self.add_widget(self.layout)
 
-    def update_texts(self):
-        self.lang_data = get_translations(self.language)
-        self.btn_select.text = self.lang_data["select_game"]
-        self.btn_settings.text = self.lang_data["settings"]
-        self.btn_exit.text = self.lang_data["exit"]
-        self.btn_test_speech.text = self.lang_data["test_speech"]
+    def update_texts(self) -> None:
+        """
+        Updates the button texts based on the current language setting.
+        """
+        self.set_text_from_key(self.btn_select, "main_menu.select_game")
+        self.set_text_from_key(self.btn_settings, "main_menu.settings")
+        self.set_text_from_key(self.btn_exit, "main_menu.exit")
+        self.set_text_from_key(self.btn_test_speech, "main_menu.test_speech")
 
-    def exit_app(self, instance):
-        self.speak(self.lang_data["goodbye"])
+    def exit_app(self, instance: Widget) -> None:
+        """
+        Exits the application after speaking a farewell message.
+
+        Args:
+            instance: The widget that triggered the action.
+        """
+        self.speak_key("main_menu.goodbye")
         App.get_running_app().stop()
         Window.close()
         sys.exit(0)
 
-    def test_speech(self, instance):
-        self.speak(self.lang_data["test"])
+    def test_speech(self, instance: Widget) -> None:
+        """
+        Triggers a speech test using a predefined translation key.
+
+        Args:
+            instance: The widget that triggered the action.
+        """
+        self.speak_key("main_menu.test")
