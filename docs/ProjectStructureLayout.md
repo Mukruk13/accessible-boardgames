@@ -34,5 +34,6 @@ accessible-boardgames/
 └── utils/
     ├── config.json                  # 📦 Default or user-saved configuration (e.g. language, voice settings)
     ├── config.py                    # 🧰 Helper functions for loading, saving, and validating config files
+    ├── logging.py                   # 🛠️ Logging setup logic (setup_logging function)
     └── translations.py              # 🌍 Translation keys, display mappings, and language data for the UI
 ```

@@ -1,12 +1,15 @@
 # services/voice_reader_windows.py
 
+import logging
 import os
 import subprocess
 import sys
 from typing import List
 
+logger = logging.getLogger(__name__)
 
 if not sys.platform.startswith("win"):
+    logger.error("voice_reader_windows.py is only supported on Windows.")
     raise EnvironmentError(
         "voice_reader_windows.py is only supported on Windows.")
 
@@ -34,11 +37,11 @@ class VoiceReaderWindows:
             engine = pyttsx3.init()
             self.voices = engine.getProperty("voices")
             if self.voices:
-                print(f"[Voice] Default: {self.voices[0].name}")
+                logger.info(f"[Voice] Default: {self.voices[0].name}")
             engine.stop()
             del engine
         except Exception as e:
-            print(f"[Voice Init Error] {e}")
+            logger.error(f"[Voice Init Error] {e}")
 
     def set_voice_for_language(self, lang_code: str) -> None:
         """
@@ -51,14 +54,14 @@ class VoiceReaderWindows:
         for i, voice in enumerate(self.voices):
             if target_name in voice.name.lower():
                 self.voice_index = i
-                print(f"[Voice] Set to {lang_code.upper()}: {voice.name}")
+                logger.info(f"[Voice] Set to {lang_code.upper()}: {voice.name}")
                 return
 
         if self.voices:
             self.voice_index = 0
-            print(f"[Voice] Fallback to: {self.voices[0].name}")
+            logger.warning(f"[Voice] Fallback to: {self.voices[0].name}")
         else:
-            print("[Voice] No voices loaded!")
+            logger.error("[Voice] No voices loaded!")
 
     def speak(self, text: str) -> None:
         """
@@ -68,7 +71,7 @@ class VoiceReaderWindows:
             text (str): The text to be spoken aloud.
         """
         if not self.voices:
-            print("[Voice] Cannot speak. No voices available.")
+            logger.error("[Voice] Cannot speak. No voices available.")
             return
 
         python_executable = sys.executable
