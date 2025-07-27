@@ -79,26 +79,13 @@ class BaseScreen(Screen):
             if markup:
                 widget.markup = True
 
-    def speak(self, text: str) -> None:
-        """
-        Speaks a given text string using TTS.
-
-        Args:
-            text: The text to be spoken.
-        """
-        speak(text)
+    def speak(self, text: str, force: bool = False) -> None:
+        speak(text, tts_enabled=self.config.get("tts_enabled", True), force=force)
 
     def speak_key(self, key_path: str, force: bool = False) -> None:
-        """
-        Speaks a string from the translation dictionary using a key.
-
-        Args:
-            key_path (str): The dot-separated translation key (e.g., "settings.tts_on").
-            force (bool): If True, speaks even if TTS is disabled.
-        """
         text = get_translation_value(self.language, key_path)
         if text:
-            speak(text, force=force)
+            self.speak(text, force=force)
 
     def navigate_to(self, screen_name: str) -> None:
         """
