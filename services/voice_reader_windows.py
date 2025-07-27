@@ -24,7 +24,7 @@ class VoiceReaderWindows:
 
     def __init__(self) -> None:
         """Initialize the voice reader and load available system voices."""
-        self.preferred_voices: dict[str, str] = {"en": "zira", "pl": "paulina"}
+        self.preferred_voices: dict[str, str] = {"de": "hedda", "en": "zira", "pl": "paulina"}
         self.voice_index: int = 0
         self.voices: List = []
         self._load_voices_once()
