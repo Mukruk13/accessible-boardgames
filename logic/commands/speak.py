@@ -7,18 +7,19 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def speak(text: str) -> None:
+def speak(text: str, force: bool = False) -> None:
     """
     Attempts to speak the provided text using the configured TTS engine.
 
-    Logs the request, success, failure, or if TTS is disabled.
-
     Args:
         text (str): The text to be spoken.
+        force (bool): If True, will attempt to speak even if TTS is disabled in config.
     """
     logger.info(f"[TTS] Requested to speak text ({len(text)} chars): '{text}'")
     config = load_config()
-    if config.get("tts_enabled", True):
+    tts_enabled = config.get("tts_enabled", True)
+
+    if tts_enabled or force:
         try:
             voice_reader_windows.speak(text)
             logger.info(f"[TTS] Speaking succeeded")
@@ -26,3 +27,4 @@ def speak(text: str) -> None:
             logger.error(f"[TTS] Error during speaking: {e}")
     else:
         logger.info(f"[TTS] Skipped speaking because TTS is disabled")
+

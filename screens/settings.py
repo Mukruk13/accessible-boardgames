@@ -53,10 +53,13 @@ class SettingsScreen(BaseScreen):
         self.accessibility_label = Label(markup=True)
         self.voice_speed_label = Label()
         self.contrast_label = Label()
+        self.tts_toggle_button = Button(size_hint=(1, None), height=50)
+        self.tts_toggle_button.bind(on_release=self.toggle_tts)
         accessibility_section = BoxLayout(orientation="vertical", spacing=10)
         accessibility_section.add_widget(self.accessibility_label)
         accessibility_section.add_widget(self.voice_speed_label)
         accessibility_section.add_widget(self.contrast_label)
+        accessibility_section.add_widget(self.tts_toggle_button)
 
         # Language Section
         self.language_label = Label(markup=True)
@@ -99,6 +102,7 @@ class SettingsScreen(BaseScreen):
             bold=True)
         self.set_text_from_key(self.voice_speed_label, "settings.voice_speed")
         self.set_text_from_key(self.contrast_label, "settings.contrast")
+        self.update_tts_button_label()
 
         self.set_text_from_key(
             self.language_label, "settings.language", markup=True, bold=True
@@ -141,3 +145,25 @@ class SettingsScreen(BaseScreen):
 
         Clock.schedule_once(
             lambda dt: self.speak_key("meta.language_changed"), 0.1)
+
+    def toggle_tts(self, instance) -> None:
+        """
+        Toggles the Text-to-Speech feature on or off and saves it to config.
+        """
+        config = load_config()
+        current_state = config.get("tts_enabled", True)
+        new_state = not current_state
+
+        save_config({**config, "tts_enabled": new_state})
+        self.update_tts_button_label()
+        status_key = "meta.tts_turned_on" if new_state else "meta.tts_turned_off"
+        Clock.schedule_once(lambda dt: self.speak_key(status_key, force=True), 0.1)
+
+    def update_tts_button_label(self) -> None:
+        """
+        Updates the TTS toggle button label to reflect the current state.
+        """
+        config = load_config()
+        is_enabled = config.get("tts_enabled", True)
+        label_key = "settings.tts_on" if is_enabled else "settings.tts_off"
+        self.set_text_from_key(self.tts_toggle_button, label_key)

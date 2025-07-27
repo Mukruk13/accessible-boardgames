@@ -87,16 +87,17 @@ class BaseScreen(Screen):
         """
         speak(text)
 
-    def speak_key(self, key_path: str) -> None:
+    def speak_key(self, key_path: str, force: bool = False) -> None:
         """
         Speaks a string from the translation dictionary using a key.
 
         Args:
-            key_path: The translation key to speak.
+            key_path (str): The dot-separated translation key (e.g., "settings.tts_on").
+            force (bool): If True, speaks even if TTS is disabled.
         """
         text = get_translation_value(self.language, key_path)
         if text:
-            self.speak(text)
+            speak(text, force=force)
 
     def navigate_to(self, screen_name: str) -> None:
         """
