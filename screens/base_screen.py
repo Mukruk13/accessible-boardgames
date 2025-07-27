@@ -25,6 +25,7 @@ class BaseScreen(Screen):
 
     def __init__(self, **kwargs: Any) -> None:
         super().__init__(**kwargs)
+        self.config: dict[str, Any] = {}
         self.language: str = "en"
         self.lang_data: dict[str, str] = {}
 
@@ -33,8 +34,8 @@ class BaseScreen(Screen):
         Called before the screen is displayed. Loads configuration and translations,
         sets the language voice, and updates all UI texts.
         """
-        config = load_config()
-        self.language = config.get("language", "en")
+        self.config = load_config()
+        self.language = self.config.get("language", "en")
         set_voice_for_language(self.language)
         self.update_language_context()
 

@@ -109,7 +109,8 @@ class SettingsScreen(BaseScreen):
         )
         self.set_text_from_key(self.back_button, "settings.back_to_main_menu")
 
-        config_lang = load_config().get("language", "en")
+        config_lang = self.config.get("language", "en")
+
         localized_names = get_language_names(config_lang)
 
         self.language_spinner.values = list(localized_names.values())
@@ -127,8 +128,7 @@ class SettingsScreen(BaseScreen):
             spinner: The spinner widget triggering the change.
             language_display_name: The display name of the selected language.
         """
-        config = load_config()
-        current_lang = config.get("language", "en")
+        current_lang = self.config.get("language", "en")
         display_map = get_language_names(current_lang)
         reverse_map = {v: k for k, v in display_map.items()}
 
@@ -140,6 +140,7 @@ class SettingsScreen(BaseScreen):
         self.lang_data = get_translations(self.language)
 
         save_config({"language": lang_code})
+        self.config["language"] = lang_code
         set_voice_for_language(lang_code)
         self.update_texts()
 
@@ -150,11 +151,12 @@ class SettingsScreen(BaseScreen):
         """
         Toggles the Text-to-Speech feature on or off and saves it to config.
         """
-        config = load_config()
-        current_state = config.get("tts_enabled", True)
+        current_state = self.config.get("tts_enabled", True)
         new_state = not current_state
 
-        save_config({**config, "tts_enabled": new_state})
+        self.config["tts_enabled"] = new_state
+        save_config(self.config)
+
         self.update_tts_button_label()
         status_key = "meta.tts_turned_on" if new_state else "meta.tts_turned_off"
         Clock.schedule_once(lambda dt: self.speak_key(status_key, force=True), 0.1)
@@ -163,7 +165,7 @@ class SettingsScreen(BaseScreen):
         """
         Updates the TTS toggle button label to reflect the current state.
         """
-        config = load_config()
-        is_enabled = config.get("tts_enabled", True)
+        is_enabled = self.config.get("tts_enabled", True)
+
         label_key = "settings.tts_on" if is_enabled else "settings.tts_off"
         self.set_text_from_key(self.tts_toggle_button, label_key)
