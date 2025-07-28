@@ -16,7 +16,7 @@ from logic.queries.get_translations import (
     get_language_names,
     get_translations,
 )
-from logic.queries.load_config import load_config
+from logic.queries.load_config import load_config, load_single_item
 
 
 class SettingsScreen(BaseScreen):
@@ -86,48 +86,45 @@ class SettingsScreen(BaseScreen):
         self.add_widget(self.main_layout)
 
     def update_texts(self) -> None:
-        """
-        Updates all visible labels and buttons with translated text based on the current language.
-        """
+        self._update_navigation_labels()
+        self._update_accessibility_labels()
+        self._update_language_spinner()
+        self.set_text_from_key(self.back_button, "settings.back_to_main_menu")
+
+    def _update_navigation_labels(self) -> None:
         self.set_text_from_key(
             self.nav_ui_label, "settings.nav_ui", markup=True, bold=True
         )
         self.set_text_from_key(self.back_style_label, "settings.back_style")
         self.set_text_from_key(self.font_size_label, "settings.font_size")
 
+    def _update_accessibility_labels(self) -> None:
         self.set_text_from_key(
             self.accessibility_label,
             "settings.accessibility",
             markup=True,
-            bold=True)
+            bold=True
+        )
         self.set_text_from_key(self.voice_speed_label, "settings.voice_speed")
         self.set_text_from_key(self.contrast_label, "settings.contrast")
         self.update_tts_button_label()
 
+    def _update_language_spinner(self) -> None:
         self.set_text_from_key(
             self.language_label, "settings.language", markup=True, bold=True
         )
-        self.set_text_from_key(self.back_button, "settings.back_to_main_menu")
-
         config_lang = self.config.get("language", "en")
-
         localized_names = get_language_names(config_lang)
 
-        self.language_spinner.values = list(localized_names.values())
-        self.language_spinner.text = localized_names.get(
-            self.language, "English")
+        available_languages = {
+            code: name for code, name in localized_names.items()
+            if code != self.language
+        }
 
-    def set_language(
-            self,
-            spinner: Spinner,
-            language_display_name: str) -> None:
-        """
-        Changes the app's language based on user selection from the language spinner.
+        self.language_spinner.values = list(available_languages.values())
+        self.language_spinner.text = localized_names.get(self.language, "English")
 
-        Args:
-            spinner: The spinner widget triggering the change.
-            language_display_name: The display name of the selected language.
-        """
+    def set_language(self, spinner: Spinner, language_display_name: str) -> None:
         current_lang = self.config.get("language", "en")
         display_map = get_language_names(current_lang)
         reverse_map = {v: k for k, v in display_map.items()}
@@ -136,28 +133,26 @@ class SettingsScreen(BaseScreen):
         if not lang_code or lang_code == self.language:
             return
 
-        self.language = lang_code
-        self.lang_data = get_translations(self.language)
-
         save_config({"language": lang_code})
-        self.config["language"] = lang_code
-        set_voice_for_language(lang_code)
-        self.update_texts()
 
-        Clock.schedule_once(
-            lambda dt: self.speak_key("meta.language_changed"), 0.1)
+        self.config = load_config()
+        self.language = lang_code
+        self.lang_data = get_translations(lang_code)
+
+        set_voice_for_language(lang_code)
+        self.refresh_all_screens()
+
+        Clock.schedule_once(lambda dt: self.speak_key("meta.language_changed"), 0.1)
 
     def toggle_tts(self, instance) -> None:
-        """
-        Toggles the Text-to-Speech feature on or off and saves it to config.
-        """
         current_state = self.config.get("tts_enabled", True)
         new_state = not current_state
 
-        self.config["tts_enabled"] = new_state
-        save_config(self.config)
+        save_config({"tts_enabled": new_state})
+        self.config["tts_enabled"] = load_single_item("tts_enabled")
 
-        self.update_tts_button_label()
+        self.refresh()
+
         status_key = "meta.tts_turned_on" if new_state else "meta.tts_turned_off"
         Clock.schedule_once(lambda dt: self.speak_key(status_key, force=True), 0.1)
 
@@ -169,3 +164,8 @@ class SettingsScreen(BaseScreen):
 
         label_key = "settings.tts_on" if is_enabled else "settings.tts_off"
         self.set_text_from_key(self.tts_toggle_button, label_key)
+
+    def refresh_all_screens(self):
+        for screen in self.manager.screens:
+            if hasattr(screen, "refresh"):
+                screen.refresh()
