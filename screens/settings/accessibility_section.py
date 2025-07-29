@@ -22,7 +22,7 @@ class AccessibilitySection(BoxLayout):
 
         self.voice_speed_label = Label(size_hint_y=None, height=30)
         self.voice_speed_slider_label = Label(size_hint_y=None, height=30)
-        self.voice_speed_slider = Slider(min=100, max=300, value=100, step=5, size_hint=(1, None), height=50)
+        self.voice_speed_slider = Slider(min=100, max=500, value=100, step=10, size_hint=(1, None), height=50)
         self.voice_speed_slider.bind(value=self.on_voice_speed_change)
 
         self.voice_volume_label = Label(size_hint_y=None, height=30)
@@ -54,7 +54,7 @@ class AccessibilitySection(BoxLayout):
         self.update_tts_button_label()
 
         # Prevent triggering callbacks on initial setup
-        rate = max(100, min(300, self.config.get("voice_rate_percent", 100)))
+        rate = max(100, min(500, self.config.get("voice_rate_percent", 100)))
         self.voice_speed_slider.unbind(value=self.on_voice_speed_change)
         self.voice_speed_slider.value = rate
         self.voice_speed_slider.bind(value=self.on_voice_speed_change)

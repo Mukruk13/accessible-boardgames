@@ -72,7 +72,7 @@ class VoiceReaderWindows:
         Args:
             percent (int): Desired rate percentage (100 to 300).
         """
-        percent = max(100, min(300, percent))
+        percent = max(100, min(500, percent))
         self.voice_rate = int(200 * (percent / 100))
         logger.info(f"[Voice] Rate set to {self.voice_rate} WPM ({percent}%)")
 
