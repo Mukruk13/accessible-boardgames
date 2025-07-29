@@ -6,11 +6,14 @@ from kivy.clock import Clock
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
+from kivy.uix.slider import Slider
 from kivy.uix.spinner import Spinner
+from kivy.uix.scrollview import ScrollView
 
 from screens.base_screen import BaseScreen
 
 from logic.commands.update_config import update_config_item
+from logic.commands.set_voice_speed import set_voice_speed
 from logic.queries.get_translations import get_language_names
 
 
@@ -31,52 +34,81 @@ class SettingsScreen(BaseScreen):
     def build_ui(self) -> None:
         """
         Constructs the layout and components for the settings interface.
+
+        Bonus tip:
+        Wrapping the main layout inside a ScrollView allows scrolling
+        if the content is too long for the screen.
         """
-        self.main_layout = BoxLayout(orientation="vertical", padding=20, spacing=30)
+        # Create the main vertical BoxLayout with padding and spacing
+        self.main_layout = BoxLayout(orientation="vertical", padding=20, spacing=30, size_hint_y=None)
+        # Set minimum height to allow scrolling properly
+        self.main_layout.bind(minimum_height=self.main_layout.setter("height"))
 
         # Navigation & UI Section
-        self.nav_ui_label = Label(markup=True)
-        self.back_style_label = Label()
-        self.font_size_label = Label()
-        nav_ui_section = BoxLayout(orientation="vertical", spacing=10)
+        self.nav_ui_label = Label(markup=True, size_hint_y=None, height=30)
+        self.back_style_label = Label(size_hint_y=None, height=30)
+        self.font_size_label = Label(size_hint_y=None, height=30)
+        nav_ui_section = BoxLayout(orientation="vertical", spacing=10, size_hint_y=None)
+        nav_ui_section.bind(minimum_height=nav_ui_section.setter("height"))
         nav_ui_section.add_widget(self.nav_ui_label)
         nav_ui_section.add_widget(self.back_style_label)
         nav_ui_section.add_widget(self.font_size_label)
 
         # Accessibility Section
-        self.accessibility_label = Label(markup=True)
-        self.voice_speed_label = Label()
-        self.contrast_label = Label()
+        self.accessibility_label = Label(markup=True, size_hint_y=None, height=30)
+        self.voice_speed_label = Label(size_hint_y=None, height=30)
+        self.voice_speed_slider_label = Label(size_hint_y=None, height=30)
+        self.voice_speed_slider = Slider(
+            min=100,
+            max=300,
+            value=100,
+            step=5,
+            size_hint=(1, None),
+            height=50
+        )
+        self.voice_speed_slider.bind(value=self.on_voice_speed_change)
+
+        self.contrast_label = Label(size_hint_y=None, height=30)
         self.tts_toggle_button = Button(size_hint=(1, None), height=50)
         self.tts_toggle_button.bind(on_release=self.toggle_tts)
-        accessibility_section = BoxLayout(orientation="vertical", spacing=10)
+
+        accessibility_section = BoxLayout(orientation="vertical", spacing=10, size_hint_y=None)
+        accessibility_section.bind(minimum_height=accessibility_section.setter("height"))
         accessibility_section.add_widget(self.accessibility_label)
         accessibility_section.add_widget(self.voice_speed_label)
+        accessibility_section.add_widget(self.voice_speed_slider_label)
+        accessibility_section.add_widget(self.voice_speed_slider)
         accessibility_section.add_widget(self.contrast_label)
         accessibility_section.add_widget(self.tts_toggle_button)
 
         # Language Section
-        self.language_label = Label(markup=True)
+        self.language_label = Label(markup=True, size_hint_y=None, height=30)
         self.language_spinner = Spinner(size_hint=(1, None), height=50)
         self.language_spinner.bind(text=self.set_language)
-        language_section = BoxLayout(orientation="vertical", spacing=10)
+        language_section = BoxLayout(orientation="vertical", spacing=10, size_hint_y=None)
+        language_section.bind(minimum_height=language_section.setter("height"))
         language_section.add_widget(self.language_label)
         language_section.add_widget(self.language_spinner)
 
         # Back Button
         self.back_button = Button(size_hint=(1, None), height=50)
-        self.back_button.bind(
-            on_release=lambda instance: self.navigate_to("main_menu")
-        )
-        back_section = BoxLayout(orientation="vertical", spacing=10)
+        self.back_button.bind(on_release=lambda instance: self.navigate_to("main_menu"))
+        back_section = BoxLayout(orientation="vertical", spacing=10, size_hint_y=None)
+        back_section.bind(minimum_height=back_section.setter("height"))
         back_section.add_widget(self.back_button)
 
-        # Assemble UI
+        # Add sections to main_layout
         self.main_layout.add_widget(nav_ui_section)
         self.main_layout.add_widget(accessibility_section)
         self.main_layout.add_widget(language_section)
         self.main_layout.add_widget(back_section)
-        self.add_widget(self.main_layout)
+
+        # Wrap main_layout in a ScrollView
+        scroll_view = ScrollView(size_hint=(1, 1))
+        scroll_view.add_widget(self.main_layout)
+
+        # Add ScrollView to the screen instead of main_layout directly
+        self.add_widget(scroll_view)
 
     def update_texts(self) -> None:
         """
@@ -104,6 +136,12 @@ class SettingsScreen(BaseScreen):
         self.set_text_from_key(self.voice_speed_label, "settings.voice_speed")
         self.set_text_from_key(self.contrast_label, "settings.contrast")
         self.update_tts_button_label()
+
+        # Update voice speed slider and label
+        percent = self.config.get("voice_rate_percent", 100)
+        percent = max(100, min(300, percent))
+        self.voice_speed_slider.value = percent
+        self.voice_speed_slider_label.text = f"{percent}%"
 
     def _update_language_spinner(self) -> None:
         self.set_text_from_key(
@@ -163,5 +201,16 @@ class SettingsScreen(BaseScreen):
         label_key = "settings.tts_on" if is_enabled else "settings.tts_off"
         self.set_text_from_key(self.tts_toggle_button, label_key)
 
+    def on_voice_speed_change(self, slider: Slider, value: float) -> None:
+        """
+        Called when the voice speed slider is adjusted.
 
+        Args:
+            slider (Slider): The slider instance.
+            value (float): The new value.
+        """
+        percent = int(value)
+        self.voice_speed_slider_label.text = f"{percent}%"
 
+        update_config_item("voice_rate_percent", percent)
+        set_voice_speed(percent)

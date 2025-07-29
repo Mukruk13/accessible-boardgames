@@ -3,7 +3,8 @@
 from kivy.app import App
 
 from navigation.screen_manager import create_screen_manager
-from logic.commands.init_config import initialize_config
+from logic.commands.initialize_config import initialize_config
+from startup.apply_startup_settings import apply_startup_settings
 from utils.app_logging import setup_logging
 from utils.log_app_banner import log_app_banner
 
@@ -13,6 +14,7 @@ class AccessibleBoardgamesApp(App):
         setup_logging(log_to_file=True)
         log_app_banner()
         initialize_config()
+        apply_startup_settings()
         return create_screen_manager()
 
 

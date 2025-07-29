@@ -10,7 +10,8 @@ class ConfigManager:
 
     DEFAULT = {
         "language": "en",
-        "tts_enabled": True
+        "tts_enabled": True,
+        "voice_rate": 100,
     }
 
     def __init__(self):
