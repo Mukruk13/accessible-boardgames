@@ -1,4 +1,4 @@
-# logic/commands/init_config.py
+# logic/commands/initialize_config.py
 
 import logging
 
