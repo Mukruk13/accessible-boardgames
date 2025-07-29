@@ -10,13 +10,8 @@ from kivy.uix.spinner import Spinner
 
 from screens.base_screen import BaseScreen
 
-from logic.commands.save_config import save_config
-from logic.commands.set_voice import set_voice_for_language
-from logic.queries.get_translations import (
-    get_language_names,
-    get_translations,
-)
-from logic.queries.load_config import load_config, load_single_item
+from logic.commands.update_config import update_config_item
+from logic.queries.get_translations import get_language_names
 
 
 class SettingsScreen(BaseScreen):
@@ -37,8 +32,7 @@ class SettingsScreen(BaseScreen):
         """
         Constructs the layout and components for the settings interface.
         """
-        self.main_layout = BoxLayout(
-            orientation="vertical", padding=20, spacing=30)
+        self.main_layout = BoxLayout(orientation="vertical", padding=20, spacing=30)
 
         # Navigation & UI Section
         self.nav_ui_label = Label(markup=True)
@@ -65,7 +59,6 @@ class SettingsScreen(BaseScreen):
         self.language_label = Label(markup=True)
         self.language_spinner = Spinner(size_hint=(1, None), height=50)
         self.language_spinner.bind(text=self.set_language)
-
         language_section = BoxLayout(orientation="vertical", spacing=10)
         language_section.add_widget(self.language_label)
         language_section.add_widget(self.language_spinner)
@@ -73,8 +66,8 @@ class SettingsScreen(BaseScreen):
         # Back Button
         self.back_button = Button(size_hint=(1, None), height=50)
         self.back_button.bind(
-            on_release=lambda instance: self.navigate_to("main_menu"))
-
+            on_release=lambda instance: self.navigate_to("main_menu")
+        )
         back_section = BoxLayout(orientation="vertical", spacing=10)
         back_section.add_widget(self.back_button)
 
@@ -86,6 +79,9 @@ class SettingsScreen(BaseScreen):
         self.add_widget(self.main_layout)
 
     def update_texts(self) -> None:
+        """
+        Refreshes all text elements on the screen to reflect the current language.
+        """
         self._update_navigation_labels()
         self._update_accessibility_labels()
         self._update_language_spinner()
@@ -118,40 +114,43 @@ class SettingsScreen(BaseScreen):
 
         available_languages = {
             code: name for code, name in localized_names.items()
-            if code != self.language
+            if code != self.config["language"]
         }
 
         self.language_spinner.values = list(available_languages.values())
-        self.language_spinner.text = localized_names.get(self.language, "English")
+        self.language_spinner.text = localized_names.get(self.config["language"], "English")
 
     def set_language(self, spinner: Spinner, language_display_name: str) -> None:
+        """
+        Sets the application's language based on the user's selection.
+
+        Args:
+            spinner (Spinner): The spinner instance triggering the event.
+            language_display_name (str): The display name of the selected language.
+        """
         current_lang = self.config.get("language", "en")
         display_map = get_language_names(current_lang)
         reverse_map = {v: k for k, v in display_map.items()}
 
         lang_code = reverse_map.get(language_display_name)
-        if not lang_code or lang_code == self.language:
+        if not lang_code or lang_code == self.config["language"]:
             return
 
-        save_config({"language": lang_code})
-
-        self.config = load_config()
-        self.language = lang_code
-        self.lang_data = get_translations(lang_code)
-
-        set_voice_for_language(lang_code)
-        self.refresh_all_screens()
-
+        update_config_item("language", lang_code)
         Clock.schedule_once(lambda dt: self.speak_key("meta.language_changed"), 0.1)
 
-    def toggle_tts(self, instance) -> None:
+    def toggle_tts(self, instance: Any) -> None:
+        """
+        Toggles text-to-speech (TTS) on or off and announces the new state.
+
+        Args:
+            instance (Any): The widget instance that triggered the toggle.
+        """
         current_state = self.config.get("tts_enabled", True)
         new_state = not current_state
 
-        save_config({"tts_enabled": new_state})
-        self.config["tts_enabled"] = load_single_item("tts_enabled")
-
-        self.refresh()
+        update_config_item("tts_enabled", new_state)
+        self.update_tts_button_label()
 
         status_key = "meta.tts_turned_on" if new_state else "meta.tts_turned_off"
         Clock.schedule_once(lambda dt: self.speak_key(status_key, force=True), 0.1)
@@ -161,11 +160,8 @@ class SettingsScreen(BaseScreen):
         Updates the TTS toggle button label to reflect the current state.
         """
         is_enabled = self.config.get("tts_enabled", True)
-
         label_key = "settings.tts_on" if is_enabled else "settings.tts_off"
         self.set_text_from_key(self.tts_toggle_button, label_key)
 
-    def refresh_all_screens(self):
-        for screen in self.manager.screens:
-            if hasattr(screen, "refresh"):
-                screen.refresh()
+
+

@@ -1,6 +1,7 @@
 # logic/commands/init_config.py
 
 import logging
+
 from utils.config_manager import ConfigManager
 
 logger = logging.getLogger(__name__)
@@ -9,7 +10,8 @@ logger = logging.getLogger(__name__)
 def initialize_config() -> None:
     """
     Ensure the configuration file exists at application startup.
-    Creates default config if missing.
+
+    If the config file is missing, it will be created with default values.
     """
     logger.info("Initializing configuration file...")
     try:
