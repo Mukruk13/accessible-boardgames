@@ -27,6 +27,7 @@ class VoiceReaderWindows:
         self.preferred_voices: dict[str, str] = {"de": "hedda", "en": "zira", "pl": "paulina"}
         self.voice_index: int = 0
         self.voice_rate: int = 200  # pyttsx3 default is around 200 WPM
+        self.voice_volume: float = 1.0  # Max volume
         self.voices: List = []
         self._load_voices_once()
 
@@ -75,6 +76,11 @@ class VoiceReaderWindows:
         self.voice_rate = int(200 * (percent / 100))
         logger.info(f"[Voice] Rate set to {self.voice_rate} WPM ({percent}%)")
 
+    def set_voice_volume(self, percent: int) -> None:
+        percent = max(0, min(100, percent))
+        self.voice_volume = max(0, min(100, percent)) / 100.0
+        logger.info(f"[Voice] Volume set to {self.voice_volume * 100:.0f}%")
+
     def speak(self, text: str) -> None:
         """
         Speak the given text using the selected voice by spawning a subprocess.
@@ -95,7 +101,8 @@ class VoiceReaderWindows:
             tts_worker_path,
             text,
             str(self.voice_index),
-            str(self.voice_rate)
+            str(self.voice_rate),
+            str(self.voice_volume)
         ]
 
         subprocess.Popen(cmd, creationflags=CREATE_NO_WINDOW)

@@ -14,6 +14,7 @@ from screens.base_screen import BaseScreen
 
 from logic.commands.update_config import update_config_item
 from logic.commands.set_voice_speed import set_voice_speed
+from logic.commands.set_voice_volume import set_voice_volume
 from logic.queries.get_translations import get_language_names
 
 
@@ -67,6 +68,17 @@ class SettingsScreen(BaseScreen):
             height=50
         )
         self.voice_speed_slider.bind(value=self.on_voice_speed_change)
+        self.voice_volume_label = Label(size_hint_y=None, height=30)
+        self.voice_volume_slider_label = Label(size_hint_y=None, height=30)
+        self.voice_volume_slider = Slider(
+            min=0,
+            max=100,
+            value=100,
+            step=1,
+            size_hint=(1, None),
+            height=50
+        )
+        self.voice_volume_slider.bind(value=self.on_voice_volume_change)
 
         self.contrast_label = Label(size_hint_y=None, height=30)
         self.tts_toggle_button = Button(size_hint=(1, None), height=50)
@@ -78,6 +90,9 @@ class SettingsScreen(BaseScreen):
         accessibility_section.add_widget(self.voice_speed_label)
         accessibility_section.add_widget(self.voice_speed_slider_label)
         accessibility_section.add_widget(self.voice_speed_slider)
+        accessibility_section.add_widget(self.voice_volume_label)
+        accessibility_section.add_widget(self.voice_volume_slider_label)
+        accessibility_section.add_widget(self.voice_volume_slider)
         accessibility_section.add_widget(self.contrast_label)
         accessibility_section.add_widget(self.tts_toggle_button)
 
@@ -134,14 +149,21 @@ class SettingsScreen(BaseScreen):
             bold=True
         )
         self.set_text_from_key(self.voice_speed_label, "settings.voice_speed")
+        self.set_text_from_key(self.voice_volume_label, "settings.voice_volume")
         self.set_text_from_key(self.contrast_label, "settings.contrast")
         self.update_tts_button_label()
 
         # Update voice speed slider and label
-        percent = self.config.get("voice_rate_percent", 100)
-        percent = max(100, min(300, percent))
-        self.voice_speed_slider.value = percent
-        self.voice_speed_slider_label.text = f"{percent}%"
+        voice_rate_percent = self.config.get("voice_rate_percent", 100)
+        voice_rate_percent = max(100, min(300, voice_rate_percent))
+        self.voice_speed_slider.value = voice_rate_percent
+        self.voice_speed_slider_label.text = f"{voice_rate_percent}%"
+
+        # Update voice volume slider and label
+        voice_volume_percent = self.config.get("voice_volume_percent", 100)
+        voice_volume_percent = max(0, min(100, voice_volume_percent))
+        self.voice_volume_slider.value = voice_volume_percent
+        self.voice_volume_slider_label.text = f"{voice_volume_percent}%"
 
     def _update_language_spinner(self) -> None:
         self.set_text_from_key(
@@ -214,3 +236,9 @@ class SettingsScreen(BaseScreen):
 
         update_config_item("voice_rate_percent", percent)
         set_voice_speed(percent)
+
+    def on_voice_volume_change(self, slider: Slider, value: float) -> None:
+        percent = int(value)
+        self.voice_volume_slider_label.text = f"{percent}%"
+        update_config_item("voice_volume_percent", percent)
+        set_voice_volume(percent)

@@ -11,6 +11,7 @@ class ConfigManager:
     DEFAULT = {
         "language": "en",
         "tts_enabled": True,
+        "voice_volume_percent": 100,
         "voice_rate": 100,
     }
 

@@ -29,13 +29,14 @@ def main() -> None:
         text: str = sys.argv[1]
         index: int = int(sys.argv[2])
         rate: int = int(sys.argv[3]) if len(sys.argv) > 3 else 200
+        volume = float(sys.argv[4]) if len(sys.argv) > 4 else 1.0
 
         engine = pyttsx3.init()
         voices = engine.getProperty("voices")
         if 0 <= index < len(voices):
             engine.setProperty("voice", voices[index].id)
         engine.setProperty("rate", rate)
-        engine.setProperty("volume", 1.0)
+        engine.setProperty("volume", volume)
 
         print(f"[TTS Worker] Speaking at {rate} WPM: {text}")
         engine.say(text)
