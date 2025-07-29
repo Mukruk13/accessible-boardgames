@@ -19,6 +19,7 @@ class AccessibilitySection(BoxLayout):
         self.config = screen.config
 
         self.accessibility_label = Label(markup=True, size_hint_y=None, height=30)
+
         self.voice_speed_label = Label(size_hint_y=None, height=30)
         self.voice_speed_slider_label = Label(size_hint_y=None, height=30)
         self.voice_speed_slider = Slider(min=100, max=300, value=100, step=5, size_hint=(1, None), height=50)
@@ -52,12 +53,17 @@ class AccessibilitySection(BoxLayout):
         self.screen.set_text_from_key(self.contrast_label, "settings.contrast")
         self.update_tts_button_label()
 
+        # Prevent triggering callbacks on initial setup
         rate = max(100, min(300, self.config.get("voice_rate_percent", 100)))
+        self.voice_speed_slider.unbind(value=self.on_voice_speed_change)
         self.voice_speed_slider.value = rate
+        self.voice_speed_slider.bind(value=self.on_voice_speed_change)
         self.voice_speed_slider_label.text = f"{rate}%"
 
         volume = max(0, min(100, self.config.get("voice_volume_percent", 100)))
+        self.voice_volume_slider.unbind(value=self.on_voice_volume_change)
         self.voice_volume_slider.value = volume
+        self.voice_volume_slider.bind(value=self.on_voice_volume_change)
         self.voice_volume_slider_label.text = f"{volume}%"
 
     def toggle_tts(self, instance):
@@ -84,3 +90,4 @@ class AccessibilitySection(BoxLayout):
         update_config_item("voice_volume_percent", percent)
         set_voice_volume(percent)
         Clock.schedule_once(lambda dt: self.screen.speak_key("meta.volume_changed", value=percent), 0.1)
+
