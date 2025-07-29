@@ -88,15 +88,21 @@ class BaseScreen(Screen):
         """
         speak(text, tts_enabled=get_config_item("tts_enabled", True), force=force)
 
-    def speak_key(self, key_path: str, force: bool = False) -> None:
+    def speak_key(self, key_path: str, force: bool = False, **kwargs) -> None:
         """
         Speaks a translated string based on a translation key.
 
         Args:
             key_path (str): The translation key to speak.
             force (bool): If True, speaks the text regardless of config.
+            **kwargs: Optional format arguments to inject into the translation string.
         """
         text = get_translation_value(self.config["language"], key_path)
+        if text and kwargs:
+            try:
+                text = text.format(**kwargs)
+            except KeyError as e:
+                self.logger.error(f"Missing format value for '{e.args[0]}' in translation '{key_path}'")
         if text:
             self.speak(text, force=force)
 

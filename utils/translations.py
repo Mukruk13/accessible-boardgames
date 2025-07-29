@@ -39,6 +39,8 @@ translations = {
             "language_names": {"de": "Deutsch", "en": "Englisch", "pl": "Polnisch"},
             "tts_turned_on": "Stimme aktiviert",
             "tts_turned_off": "Stimme deaktiviert",
+            "speed_changed": "Sprachgeschwindigkeit auf {value} Prozent eingestellt",
+            "volume_changed": "Sprachlautstärke auf {value} Prozent gesetzt",
         },
     },
     "en": {
@@ -70,6 +72,8 @@ translations = {
             "language_names": {"de": "German", "en": "English", "pl": "Polish"},
             "tts_turned_on": "Voice Turned On",
             "tts_turned_off": "Voice Turned Off",
+            "speed_changed": "Voice Speed set to {value} percent",
+            "volume_changed": "Voice Volume set to {value} percent"
         },
     },
     "pl": {
@@ -101,6 +105,8 @@ translations = {
             "language_names": {"de": "Niemiecki", "en": "Angielski", "pl": "Polski"},
             "tts_turned_on": "Głos Włączony",
             "tts_turned_off": "Głos Wyłączony",
+            "speed_changed": "Szybkość głosu ustawiona na {value} procent",
+            "volume_changed": "Głośność ustawiona na {value} procent"
         },
     },
 }

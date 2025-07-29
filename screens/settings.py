@@ -237,8 +237,12 @@ class SettingsScreen(BaseScreen):
         update_config_item("voice_rate_percent", percent)
         set_voice_speed(percent)
 
+        Clock.schedule_once(lambda dt: self.speak_key("meta.speed_changed", value=percent), 0.1)
+
     def on_voice_volume_change(self, slider: Slider, value: float) -> None:
         percent = int(value)
         self.voice_volume_slider_label.text = f"{percent}%"
         update_config_item("voice_volume_percent", percent)
         set_voice_volume(percent)
+
+        Clock.schedule_once(lambda dt: self.speak_key("meta.volume_changed", value=percent), 0.1)
