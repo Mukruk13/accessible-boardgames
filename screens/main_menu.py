@@ -1,15 +1,13 @@
 # screens/main_menu.py
 
-import sys
 from typing import Any
 
-from kivy.app import App
-from kivy.core.window import Window
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.widget import Widget
 
 from screens.base_screen import BaseScreen
+from logic.commands.exit_app import exit_app
 
 
 class MainMenuScreen(BaseScreen):
@@ -68,9 +66,7 @@ class MainMenuScreen(BaseScreen):
             instance: The widget that triggered the action.
         """
         self.speak_key("main_menu.goodbye")
-        App.get_running_app().stop()
-        Window.close()
-        sys.exit(0)
+        exit_app()
 
     def test_speech(self, instance: Widget) -> None:
         """
