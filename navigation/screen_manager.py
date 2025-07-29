@@ -5,7 +5,7 @@ from kivy.uix.screenmanager import ScreenManager, FadeTransition
 from screens.main_menu import MainMenuScreen
 from screens.game_selection import GameSelectionScreen
 from screens.game_add_new import GameAddNewScreen
-from screens.settings import SettingsScreen
+from screens.settings.settings_screen import SettingsScreen
 from screens.game_play import GamePlayScreen
 
 
