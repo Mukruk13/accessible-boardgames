@@ -26,7 +26,11 @@ class VoiceReaderWindows:
 
     def __init__(self) -> None:
         """Initialize the voice reader and load available system voices."""
-        self.preferred_voices: dict[str, str] = {"de": "hedda", "en": "zira", "pl": "paulina"}
+        self.preferred_voices: dict[str, str] = {
+            "de": "hedda",
+            "en": "zira",
+            "pl": "paulina",
+        }
         self.voice_index: int = 0
         self.voice_rate: int = 200  # pyttsx3 default is around 200 WPM
         self.voice_volume: float = 1.0  # Max volume
@@ -58,7 +62,8 @@ class VoiceReaderWindows:
         for i, voice in enumerate(self.voices):
             if target_name in voice.name.lower():
                 self.voice_index = i
-                logger.info(f"[Voice] Set to {lang_code.upper()}: {voice.name}")
+                logger.info(
+                    f"[Voice] Set to {lang_code.upper()}: {voice.name}")
                 return
 
         if self.voices:
@@ -104,7 +109,7 @@ class VoiceReaderWindows:
             text,
             str(self.voice_index),
             str(self.voice_rate),
-            str(self.voice_volume)
+            str(self.voice_volume),
         ]
 
         subprocess.Popen(cmd, creationflags=CREATE_NO_WINDOW)

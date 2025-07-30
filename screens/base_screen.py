@@ -43,8 +43,8 @@ class BaseScreen(Screen):
         """
         if self.speak_on_enter_key:
             Clock.schedule_once(
-                lambda dt: self.speak_key(self.speak_on_enter_key), 0.1
-            )
+                lambda dt: self.speak_key(
+                    self.speak_on_enter_key), 0.1)
 
     def update_language_context(self) -> None:
         """
@@ -86,7 +86,12 @@ class BaseScreen(Screen):
             text (str): The text to speak.
             force (bool): If True, speaks the text regardless of config.
         """
-        speak(text, tts_enabled=get_config_item("tts_enabled", True), force=force)
+        speak(
+            text,
+            tts_enabled=get_config_item(
+                "tts_enabled",
+                True),
+            force=force)
 
     def speak_key(self, key_path: str, force: bool = False, **kwargs) -> None:
         """
@@ -102,7 +107,9 @@ class BaseScreen(Screen):
             try:
                 text = text.format(**kwargs)
             except KeyError as e:
-                self.logger.error(f"Missing format value for '{e.args[0]}' in translation '{key_path}'")
+                self.logger.error(
+                    f"Missing format value for '{e.args[0]}' in translation '{key_path}'"
+                )
         if text:
             self.speak(text, force=force)
 

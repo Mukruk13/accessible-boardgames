@@ -76,20 +76,20 @@ translations = {
             "test": "Test",
         },
         "game_selection": {
-                    "game_selection": "Game Selection",
-                    "play_game": "Play Game",
-                    "saved_games": "Saved Games",
-                    "new_game": "New Game",
-                    "back_to_main_menu": "Back to Main Menu",
-                    "placeholder": "Placeholder",
-                },
+            "game_selection": "Game Selection",
+            "play_game": "Play Game",
+            "saved_games": "Saved Games",
+            "new_game": "New Game",
+            "back_to_main_menu": "Back to Main Menu",
+            "placeholder": "Placeholder",
+        },
         "meta": {
             "language_changed": "Language changed to English",
             "language_names": {"de": "German", "en": "English", "pl": "Polish"},
             "tts_turned_on": "Voice Turned On",
             "tts_turned_off": "Voice Turned Off",
             "speed_changed": "Voice Speed set to {value} percent",
-            "volume_changed": "Voice Volume set to {value} percent"
+            "volume_changed": "Voice Volume set to {value} percent",
         },
     },
     "pl": {
@@ -130,7 +130,7 @@ translations = {
             "tts_turned_on": "Głos Włączony",
             "tts_turned_off": "Głos Wyłączony",
             "speed_changed": "Szybkość głosu ustawiona na {value} procent",
-            "volume_changed": "Głośność ustawiona na {value} procent"
+            "volume_changed": "Głośność ustawiona na {value} procent",
         },
     },
 }

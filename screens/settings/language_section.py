@@ -31,15 +31,20 @@ class LanguageSection(BoxLayout):
         localized_names = get_language_names(config_lang)
 
         self.language_map = {
-            name: code for code, name in localized_names.items()
+            name: code
+            for code, name in localized_names.items()
             if code != self.config["language"]
         }
         self.language_spinner.values = list(self.language_map.keys())
-        self.language_spinner.text = localized_names.get(self.config["language"], "English")
+        self.language_spinner.text = localized_names.get(
+            self.config["language"], "English"
+        )
 
     def set_language(self, spinner, language_display_name):
         code = self.language_map.get(language_display_name)
         if not code or code == self.config.get("language", "en"):
             return
         update_config_item("language", code)
-        Clock.schedule_once(lambda dt: self.screen.speak_key("meta.language_changed"), 0.1)
+        Clock.schedule_once(
+            lambda dt: self.screen.speak_key("meta.language_changed"), 0.1
+        )

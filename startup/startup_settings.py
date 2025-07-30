@@ -1,4 +1,4 @@
-#startup/startup_settings_applier.py
+# startup/startup_settings_applier.py
 
 import logging
 from logic.queries.get_config import get_config_item

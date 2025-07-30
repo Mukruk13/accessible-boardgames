@@ -41,7 +41,8 @@ class GameSelectionScreen(BaseScreen):
         self.btn_new_game.bind(
             on_release=lambda x: self.navigate_to("game_add_new"))
         self.btn_back_to_main_menu.bind(
-            on_release=lambda x: self.navigate_to("main_menu"))
+            on_release=lambda x: self.navigate_to("main_menu")
+        )
 
         self.layout.add_widget(self.btn_play_game)
         self.layout.add_widget(self.spinner_saved_games)
@@ -55,14 +56,21 @@ class GameSelectionScreen(BaseScreen):
         Updates the button texts based on the current language setting.
         """
         self.set_text_from_key(self.btn_play_game, "game_selection.play_game")
-        self.set_text_from_key(self.spinner_saved_games, "game_selection.saved_games")  # Spinner label
+        self.set_text_from_key(
+            self.spinner_saved_games, "game_selection.saved_games"
+        )  # Spinner label
         self.set_text_from_key(self.btn_new_game, "game_selection.new_game")
-        self.set_text_from_key(self.btn_back_to_main_menu, "game_selection.back_to_main_menu")
+        self.set_text_from_key(
+            self.btn_back_to_main_menu, "game_selection.back_to_main_menu"
+        )
 
         # Populate spinner values (you can replace with real saved games)
         self.spinner_saved_games.values = self.get_saved_games()
 
-    def on_saved_game_selected(self, spinner: Spinner, selected_text: str) -> None:
+    def on_saved_game_selected(
+            self,
+            spinner: Spinner,
+            selected_text: str) -> None:
         """
         Handles selection from the saved games spinner.
         """

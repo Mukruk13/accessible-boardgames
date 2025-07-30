@@ -7,6 +7,7 @@ from kivy.core.window import Window
 
 logger = logging.getLogger(__name__)
 
+
 def exit_app() -> None:
     """
     Cleanly stops the Kivy app, closes the window, and exits the process.

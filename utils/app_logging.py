@@ -22,7 +22,8 @@ def setup_logging(log_to_file: Optional[bool] = False) -> None:
 
     root_logger = logging.getLogger()  # Kivy uses root logger
 
-    if not any(isinstance(handler, logging.StreamHandler) for handler in root_logger.handlers):
+    if not any(isinstance(handler, logging.StreamHandler)
+               for handler in root_logger.handlers):
         stream_handler = logging.StreamHandler()
         stream_handler.setLevel(logging.INFO)
         stream_handler.setFormatter(formatter)
@@ -33,7 +34,8 @@ def setup_logging(log_to_file: Optional[bool] = False) -> None:
         print(f"Logging to file: {log_file_path}")
 
         if not any(
-            isinstance(handler, logging.FileHandler) and getattr(handler, "baseFilename", None) == log_file_path
+            isinstance(handler, logging.FileHandler)
+            and getattr(handler, "baseFilename", None) == log_file_path
             for handler in root_logger.handlers
         ):
             file_handler = logging.FileHandler(log_file_path, encoding="utf-8")
@@ -45,6 +47,3 @@ def setup_logging(log_to_file: Optional[bool] = False) -> None:
 
     # Suppress unneeded logs for now:
     logging.getLogger("startup.startup_settings").setLevel(logging.WARNING)
-
-
-

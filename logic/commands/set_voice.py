@@ -5,6 +5,7 @@ from services.voice_reader_windows import voice_reader_windows
 
 logger = logging.getLogger(__name__)
 
+
 def set_voice_for_language(lang_code: str) -> None:
     """
     Sets the voice to the one matching the given language code.
@@ -18,4 +19,3 @@ def set_voice_for_language(lang_code: str) -> None:
         logger.debug(f"Voice set successfully for language '{lang_code}'")
     except Exception as e:
         logger.error(f"Failed to set voice for language '{lang_code}': {e}")
-

@@ -22,5 +22,7 @@ class NavigationSection(BoxLayout):
         self.screen.set_text_from_key(
             self.nav_ui_label, "settings.nav_ui", markup=True, bold=True
         )
-        self.screen.set_text_from_key(self.back_style_label, "settings.back_style")
-        self.screen.set_text_from_key(self.font_size_label, "settings.font_size")
+        self.screen.set_text_from_key(
+            self.back_style_label, "settings.back_style")
+        self.screen.set_text_from_key(
+            self.font_size_label, "settings.font_size")
