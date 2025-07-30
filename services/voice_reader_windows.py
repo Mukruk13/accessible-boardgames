@@ -2,11 +2,13 @@
 
 import logging
 import os
+
 import subprocess
 import sys
 from typing import List
 
 logger = logging.getLogger(__name__)
+logging.getLogger("comtypes").setLevel(logging.CRITICAL)
 
 if not sys.platform.startswith("win"):
     logger.error("voice_reader_windows.py is only supported on Windows.")

@@ -1,7 +1,5 @@
 # services/tts_worker_windows.py
 
-# services/tts_worker_windows.py
-
 import sys
 
 import pythoncom

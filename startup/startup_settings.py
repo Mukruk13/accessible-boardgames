@@ -24,21 +24,21 @@ class StartupSettingsApplier:
     def _apply_language(self):
         language = self.get_config("language", "en")
         set_voice_for_language(language)
-        self.logger.info(f"Language set to {language}")
+        self.logger.debug(f"[Language] Set to {language}")
 
     def _apply_tts_enabled(self):
         tts_enabled = self.get_config("tts_enabled", True)
-        self.logger.info(f"TTS enabled: {tts_enabled}")
+        self.logger.debug(f"[TTS] Enabled: {tts_enabled}")
 
     def _apply_voice_volume(self):
         volume_percent = self.get_config("voice_volume_percent", 100)
         set_voice_volume(volume_percent)
-        self.logger.info(f"Voice volume set to {volume_percent}%")
+        self.logger.debug(f"[Voice] Volume set to {volume_percent}%")
 
     def _apply_voice_speed(self):
         voice_speed = self.get_config("voice_rate_percent", 100)
         set_voice_speed(voice_speed)
-        self.logger.info(f"Voice speed set to {voice_speed}")
+        self.logger.debug(f"[Voice] Speed set to {voice_speed}")
 
 
 startup_settings_applier = StartupSettingsApplier(get_config_item)

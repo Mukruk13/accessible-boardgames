@@ -43,5 +43,8 @@ def setup_logging(log_to_file: Optional[bool] = False) -> None:
 
     root_logger.setLevel(logging.DEBUG)
 
+    # Suppress unneeded logs for now:
+    logging.getLogger("startup.startup_settings").setLevel(logging.WARNING)
+
 
 
