@@ -34,6 +34,14 @@ translations = {
             "goodbye": "Auf Wiedersehen",
             "test": "Test",
         },
+        "game_selection": {
+            "game_selection": "Spielauswahl",
+            "play_game": "Spiel starten",
+            "saved_games": "Gespeicherte Spiele",
+            "new_game": "Neues Spiel",
+            "back_to_main_menu": "Zurück zum Hauptmenü",
+            "placeholder": "Placeholder",
+        },
         "meta": {
             "language_changed": "Sprache auf Deutsch geändert",
             "language_names": {"de": "Deutsch", "en": "Englisch", "pl": "Polnisch"},
@@ -67,6 +75,14 @@ translations = {
             "goodbye": "Goodbye",
             "test": "Test",
         },
+        "game_selection": {
+                    "game_selection": "Game Selection",
+                    "play_game": "Play Game",
+                    "saved_games": "Saved Games",
+                    "new_game": "New Game",
+                    "back_to_main_menu": "Back to Main Menu",
+                    "placeholder": "Placeholder",
+                },
         "meta": {
             "language_changed": "Language changed to English",
             "language_names": {"de": "German", "en": "English", "pl": "Polish"},
@@ -99,6 +115,14 @@ translations = {
             "main_menu": "Menu główne",
             "goodbye": "Do widzenia",
             "test": "Test",
+        },
+        "game_selection": {
+            "game_selection": "Wybór gry",
+            "play_game": "Zagraj w grę",
+            "saved_games": "Zapisane gry",
+            "new_game": "Nowa gra",
+            "back_to_main_menu": "Powrót do menu głównego",
+            "placeholder": "Placeholder",
         },
         "meta": {
             "language_changed": "Wybrano język polski",
