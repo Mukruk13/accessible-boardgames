@@ -1,14 +1,97 @@
 {
-  "name": "SMOKI",
-  "card_count": 52,
-  "tokens_count": 12,
-  "modules": ["common", "narrator", "game_memory", "peer_sync"],
-  "card_template": {
-    "fields": ["kraina", "typ", "punkty"]
-  },
-  "instructions": [
-    { "title": "Wprowadzenie", "file": "intro.txt" },
-    { "title": "Opis smoków", "file": "types.txt" },
-    { "title": "Punkty", "file": "points.txt" }
+  "game_title": "Smoki",
+  "total_cards": 52,
+  "cards": [
+    {
+      "type": "Smoki",
+      "value": -2,
+      "quantity": 4,
+      "short_description": "",
+      "long_description": ""
+    },
+    {
+      "type": "Smoki",
+      "value": 0,
+      "quantity": 4,
+      "short_description": "",
+      "long_description": ""
+    },
+    {
+      "type": "Smoki",
+      "value": 1,
+      "quantity": 4,
+      "short_description": "",
+      "long_description": ""
+    },
+    {
+      "type": "Smoki",
+      "value": 2,
+      "quantity": 4,
+      "short_description": "",
+      "long_description": ""
+    },
+    {
+      "id": "3",
+      "type": "Smoki",
+      "value": 3,
+      "short_description": "",
+      "long_description": "To trzecia kraina. Wyobraź sobie samotną wyspę pośród spokojnego morza. W oddali stoi czerwona latarnia morska — jej światło omiata wybrzeże, jakby wypatrywało czegoś ukrytego. Z klifu spływa wodospad, który wpada do zatoki. Na plaży ktoś rozpalił ognisko — jego dym miesza się z lekką mgłą. W powietrzu słychać krzyk ptaków, a na horyzoncie zbliża się żaglowiec. Cały krajobraz układa się w kształt ukrytego smoka — jakby natura sama ożyła i przybrała jego formę. Ten smok nie jest widoczny od razu. Trzeba poczuć go wyobraźnią. To on rządzi tą krainą."
+    },
+    {
+      "type": "Smoki",
+      "value": 4,
+      "quantity": 4,
+      "short_description": "",
+      "long_description": ""
+    },
+    {
+      "type": "Smoki",
+      "value": 5,
+      "quantity": 4,
+      "short_description": "",
+      "long_description": ""
+    },
+    {
+      "type": "Smoki",
+      "value": 6,
+      "quantity": 4,
+      "short_description": "",
+      "long_description": ""
+    },
+    {
+      "type": "Smoki",
+      "value": 7,
+      "quantity": 4,
+      "short_description": "",
+      "long_description": ""
+    },
+    {
+      "type": "Smoki",
+      "value": 8,
+      "quantity": 4,
+      "short_description": "",
+      "long_description": ""
+    },
+    {
+      "type": "Kruki",
+      "value": 10,
+      "quantity": 4,
+      "short_description": "Kruczy Krąg. Modyfikator.",
+      "long_description": ""
+    },
+    {
+      "type": "Kruki",
+      "value": 9,
+      "quantity": 4,
+      "short_description": "Krucze gniazdo. Modyfikator.",
+      "long_description": ""
+    },
+    {
+      "type": "Kruki",
+      "value": "<-->"
+      "quantity": 4,
+      "short_description": "Odbicie w wodzie. Modyfikator.",
+      "long_description": ""
+    }
   ]
 }
